@@ -14,19 +14,21 @@ export default async function(r, {branch}) {
 		throw new Error("This test run was triggered by a git tag and therefore a new version won't be published.");
 	}
 
-	let current = process.env.TRAVIS_BRANCH;
-	let pass = [].concat(branch).some(b => {
-		if (isRegExp(b)) {
-			return b.test(current);
-		} else if (typeof b === "string") {
-			return current === b;
-		} else if (typeof b === "function") {
-			return b(current);
-		}
-	});
+	if (branch) {
+		let current = process.env.TRAVIS_BRANCH;
+		let pass = [].concat(branch).some(b => {
+			if (isRegExp(b)) {
+				return b.test(current);
+			} else if (typeof b === "string") {
+				return current === b;
+			} else if (typeof b === "function") {
+				return b(current);
+			}
+		});
 
-	if (!pass) {
-		throw new Error(`This autorelease was triggered on branch ${current}, which is not a branch autorelease is configured to publish from.`);
+		if (!pass) {
+			throw new Error(`This autorelease was triggered on branch ${current}, which is not a branch autorelease is configured to publish from.`);
+		}
 	}
 
 	await new Promise((resolve, reject) => {
