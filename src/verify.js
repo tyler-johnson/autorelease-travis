@@ -1,7 +1,10 @@
 import {has,isRegExp} from "lodash";
-import travisAfterAll from "travis-after-all";
+import travisDeployOnce from "travis-deploy-once";
 
-export default async function(r, {branch}) {
+export default async function(r, {
+	branch,
+	githubToken = process.env.GH_TOKEN
+}) {
 	if (process.env.TRAVIS !== "true") {
 		throw new Error("This is not running on Travis CI and therefore a new version won't be published.");
 	}
@@ -31,20 +34,13 @@ export default async function(r, {branch}) {
 		}
 	}
 
-	await new Promise((resolve, reject) => {
-		travisAfterAll((code, err) => {
-			if (err) return reject(err);
-
-			if (code === 0) return resolve();
-			else if (code === 1) {
-				return reject(new Error("In this run not all jobs passed and therefore a new version won't be published."));
-			}
-			else if (code === 2) {
-				return reject(new Error("This test run is not the build leader and therefore a new version won't be published."));
-			}
-			else {
-				return reject(new Error("Unkown travis-after-all error"));
-			}
-		});
+	const canDeploy = await travisDeployOnce({
+		token: githubToken
 	});
+
+	if (canDeploy == null) {
+		throw new Error("This test run is not the build leader and therefore a new version won't be published.");
+	} else if (!canDeploy) {
+		throw new Error("In this run not all jobs passed and therefore a new version won't be published.");
+	}
 }
