@@ -3,7 +3,8 @@ import travisDeployOnce from "travis-deploy-once";
 
 export default async function(r, {
 	branch,
-	githubToken = process.env.GH_TOKEN
+	githubToken = process.env.GH_TOKEN,
+	skipTravisWait = process.env.SKIP_TRAVIS_WAIT
 }) {
 	if (process.env.TRAVIS !== "true") {
 		throw new Error("This is not running on Travis CI and therefore a new version won't be published.");
@@ -34,13 +35,15 @@ export default async function(r, {
 		}
 	}
 
-	const canDeploy = await travisDeployOnce({
-		token: githubToken
-	});
+	if (!skipTravisWait) {
+		const canDeploy = await travisDeployOnce({
+			githubToken: githubToken
+		});
 
-	if (canDeploy == null) {
-		throw new Error("This test run is not the build leader and therefore a new version won't be published.");
-	} else if (!canDeploy) {
-		throw new Error("In this run not all jobs passed and therefore a new version won't be published.");
+		if (canDeploy == null) {
+			throw new Error("This test run is not the build leader and therefore a new version won't be published.");
+		} else if (!canDeploy) {
+			throw new Error("In this run not all jobs passed and therefore a new version won't be published.");
+		}
 	}
 }
