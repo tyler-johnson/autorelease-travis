@@ -12,22 +12,22 @@
     "autorelease": "autorelease pre && npm publish && autorelease post"
   },
   "dependencies": {
-    "lodash": "^4.6.1",
-    "travis-deploy-once": "^1.0.1"
+    "lodash": "^4.17.5",
+    "travis-deploy-once": "^4.3.4"
   },
   "devDependencies": {
-    "autorelease": "^1.3.1",
-    "autorelease-github": "^1.1.0",
-    "babel-eslint": "^5.0.0",
-    "babel-plugin-external-helpers": "^6.5.0",
-    "babel-plugin-transform-async-to-generator": "^6.5.0",
-    "babel-plugin-transform-es2015-destructuring": "^6.6.4",
-    "babel-plugin-transform-es2015-parameters": "^6.6.4",
-    "babel-plugin-transform-object-rest-spread": "^6.6.4",
-    "eslint": "~2.2.0",
-    "rollup": "^0.25.4",
-    "rollup-plugin-babel": "^2.4.0",
-    "tape": "^4.5.0"
+    "autorelease": "^1.7.1",
+    "autorelease-github": "^1.2.0",
+    "babel-eslint": "^8.2.2",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
+    "babel-plugin-transform-es2015-parameters": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "eslint": "^4.18.1",
+    "rollup": "^0.56.3",
+    "rollup-plugin-babel": "^3.0.3",
+    "tape": "^4.9.0"
   },
   "keywords": [],
   "license": "MIT"
