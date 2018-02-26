@@ -8,7 +8,9 @@
   },
   "scripts": {
     "lint": "eslint src/ test/",
-    "build": "make clean && make",
+    "clean": "shx rm verify.js",
+    "build": "rollup src/verify.js -c -f cjs > verify.js",
+    "prepare": "npm run build",
     "autorelease": "autorelease pre && npm publish && autorelease post"
   },
   "dependencies": {
@@ -18,17 +20,18 @@
   "devDependencies": {
     "autorelease": "^1.7.1",
     "autorelease-github": "^1.2.0",
+    "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
-    "babel-plugin-transform-es2015-parameters": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "eslint": "^4.18.1",
     "rollup": "^0.56.3",
     "rollup-plugin-babel": "^3.0.3",
     "tape": "^4.9.0"
   },
   "keywords": [],
-  "license": "MIT"
+  "license": "MIT",
+  "files": [
+    "verify.js"
+  ]
 }
